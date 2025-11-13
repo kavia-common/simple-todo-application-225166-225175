@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Simple Todo Frontend (Next.js)
 
-## Getting Started
+A modern, accessible todo list built with Next.js (App Router), styled with the Ocean Professional theme (blue primary, amber accents). Supports adding, viewing, editing, completing, and deleting tasks. Data is persisted to `localStorage` as an interim solution, and the API layer is ready to switch to a backend using `NEXT_PUBLIC_API_BASE`.
 
-First, run the development server:
+## Quick Start
+
+- Port: 3000 (Next.js default)
+- Requirements: Node 18+ recommended
+
+Install and run:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Add tasks with input validation (non-empty)
+- Edit task titles inline with validation
+- Toggle complete/incomplete
+- Delete tasks
+- Persist to `localStorage`
+- Accessible markup and keyboard-friendly controls
+- Ocean Professional styling with subtle gradients, rounded corners, and transitions
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- src/lib/api.ts: Swappable API layer
+  - listTodos, addTodo, updateTodo, deleteTodo
+  - Currently backed by `localStorage`; later can point at `NEXT_PUBLIC_API_BASE`
+- src/store/todoStore.tsx: React Context store for app state and actions
+- src/components:
+  - Header.tsx
+  - TodoInput.tsx
+  - TodoList.tsx
+  - TodoItem.tsx
+- src/app:
+  - layout.tsx
+  - page.tsx
+  - not-found.tsx
+  - globals.css
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Switching to a Backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Set `NEXT_PUBLIC_API_BASE` to your backend base URL and enable the fetch blocks in `src/lib/api.ts` (commented examples included).
 
-## Deploy on Vercel
+Environment variables recognized (not all used by default here):
+- NEXT_PUBLIC_API_BASE
+- NEXT_PUBLIC_BACKEND_URL
+- NEXT_PUBLIC_FRONTEND_URL
+- NEXT_PUBLIC_WS_URL
+- NEXT_PUBLIC_NODE_ENV
+- NEXT_PUBLIC_NEXT_TELEMETRY_DISABLED
+- NEXT_PUBLIC_ENABLE_SOURCE_MAPS
+- NEXT_PUBLIC_PORT
+- NEXT_PUBLIC_TRUST_PROXY
+- NEXT_PUBLIC_LOG_LEVEL
+- NEXT_PUBLIC_HEALTHCHECK_PATH
+- NEXT_PUBLIC_FEATURE_FLAGS
+- NEXT_PUBLIC_EXPERIMENTS_ENABLED
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Note: The app runs without any of these set; `NEXT_PUBLIC_API_BASE` is optional for future backend connectivity.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Accessibility
+
+- Form inputs have labels (screen-reader only where appropriate)
+- Buttons include descriptive aria-labels
+- Error messages associated via aria-describedby
+- Focus-visible styles for keyboard users
+
+## Testing
+
+No test framework is preconfigured in this template. If you add one later (e.g., Jest/RTL), you can test:
+- Input validation for empty tasks
+- Store actions (create, toggle, edit, remove)
+- API layer behavior (localStorage)
+
+## Deployment
+
+- `npm run build` to build
+- `npm start` to run production server
+
+This project uses Next.js defaults and runs on port 3000.
